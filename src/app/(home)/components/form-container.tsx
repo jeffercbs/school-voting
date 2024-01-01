@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui";
-import { cn } from "@/lib/utils";
 import { GithubIcon } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
@@ -8,20 +7,9 @@ interface FormProps {
   children: React.ReactNode;
   title: string;
   description: string;
-  onSubmit?: (event: React.SyntheticEvent) => void;
-  action?: () => void;
-  className?: string;
-  btn?: string;
 }
 
-export const Form = ({
-  children,
-  title,
-  description,
-  onSubmit,
-  className: classes,
-  btn,
-}: FormProps) => {
+export const FormContainer = ({ children, title, description }: FormProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   return (
@@ -32,14 +20,7 @@ export const Form = ({
           <p className="text-sm text-muted-foreground">{description}</p>
         </div>
         <div className="grid gap-4">
-          <form onSubmit={onSubmit && onSubmit} className={classes}>
-            <div className="grid gap-2">
-              <div className="grid gap-4 mb-3">{children}</div>
-              <Button type="submit" disabled={isLoading}>
-                {isLoading ? "Loading..." : btn}
-              </Button>
-            </div>
-          </form>
+          {children}
 
           <div className="relative">
             <div className="absolute inset-0 flex items-center">

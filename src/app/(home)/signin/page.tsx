@@ -1,10 +1,14 @@
 "use client";
-import { Input, Label } from "@/components/ui";
+import { authenticate } from "@/app/actions";
+import { Button, Input, Label } from "@/components/ui";
 import { useState } from "react";
-import { Form } from "../components/form";
+import { useFormState, useFormStatus } from "react-dom";
+import { FormContainer } from "../components/form-container";
 
 export default function SigninPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errorMessage, dispath] = useFormState(authenticate, undefined);
+  const { pending } = useFormStatus();
 
   return (
     <div className="grid md:grid-cols-2 grid-cols-1 overflow-y-auto">
@@ -13,36 +17,48 @@ export default function SigninPage() {
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit, modi.
         </p>
       </div>
-      <Form
+
+      <FormContainer
         title="Iniciar sesión"
         description="Ingrese su usuario y contraseña para iniciar sesion"
-        btn="Crear cuenta"
       >
-        <Label className="sr-only" htmlFor="user">
-          User
-        </Label>
-        <Input
-          id="user"
-          name="user"
-          placeholder="juanc"
-          type="text"
-          autoCapitalize="none"
-          autoComplete="user"
-          autoCorrect="off"
-          disabled={isLoading}
-        />
-        <Label className="sr-only" htmlFor="password">
-          Password
-        </Label>
-        <Input
-          id="password"
-          name="password"
-          placeholder="*******"
-          type="password"
-          autoComplete="password"
-          disabled={isLoading}
-        />
-      </Form>
+        <form action={dispath} className="block">
+          <div className="flex flex-col pb-6 gap-y-3">
+            <Label className="sr-only" htmlFor="user">
+              User
+            </Label>
+            <Input
+              id="user"
+              name="user"
+              placeholder="juanc"
+              type="text"
+              autoCapitalize="none"
+              autoComplete="user"
+              autoCorrect="off"
+              disabled={isLoading}
+            />
+            <Label className="sr-only" htmlFor="password">
+              Password
+            </Label>
+            <Input
+              id="password"
+              name="password"
+              placeholder="*******"
+              type="password"
+              autoComplete="password"
+              disabled={isLoading}
+            />
+          </div>
+          <Button
+            type="submit"
+            aria-disabled={pending}
+            className="w-full"
+            disabled={isLoading}
+          >
+            {isLoading ? "Loading..." : "Ingresar"}
+          </Button>
+        </form>
+      </FormContainer>
     </div>
   );
 }
