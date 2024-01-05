@@ -11,6 +11,7 @@ import {
   DropdownMenuGroup,
   AvatarFallback,
 } from "@/components/ui";
+import { signOut } from "next-auth/react";
 
 export function User() {
   return (
@@ -36,7 +37,9 @@ export function User() {
         <DropdownMenuLabel>Hola, dario echandia olaya</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>Item 1</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => signOut()} color="warning">
+            Item 1
+          </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
