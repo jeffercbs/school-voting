@@ -14,14 +14,8 @@ export const Header = () => {
         </div>
         <div className="flex gap-4">
           <Theme />
-          <Link
-            href="/signin"
-            className={buttonVariants({ variant: "outline" })}
-          >
+          <Link href="/signin" className={buttonVariants()}>
             Iniciar sesion
-          </Link>
-          <Link href="/signup" className={buttonVariants()}>
-            Crear cuenta
           </Link>
         </div>
       </div>

@@ -8,9 +8,6 @@ export const GoogleSignin = () => {
       <Button variant="outline" onClick={() => signIn("google")}>
         Iniciar sesion con Google
       </Button>
-      <Button variant="outline" onClick={() => signIn("github")}>
-        Iniciar sesion con Github
-      </Button>
     </>
   );
 };

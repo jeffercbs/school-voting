@@ -34,10 +34,9 @@ export default function SigninPage() {
             <GoogleSignin />
           </div>
           <p className="px-8 text-center text-sm text-muted-foreground">
-            By clicking continue, you agree to our
-            <Link href="/terms">Terms of Service</Link>
-            and
-            <Link href="/privacy">Privacy Policy</Link>.
+            Al hacer clic en continuar, usted acepta nuestro
+            <Link href="/terms">Términos de servicio</Link>y
+            <Link href="/privacy">Política de privacidad</Link>.
           </p>
         </div>
       </div>
