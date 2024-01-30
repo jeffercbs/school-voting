@@ -1,31 +1,17 @@
+import PostgresAdapter from "@auth/pg-adapter";
 import NextAuth from "next-auth";
-import Credentials from "next-auth/providers/credentials";
-import { z } from "zod";
+import GoogleProvider from "next-auth/providers/google";
+import { Pool } from "pg";
 
-async function getUserToken({
-  user,
-  password,
-}: {
-  user: string;
-  password: string;
-}): Promise<any> {
-  try {
-    const res = await fetch("http://localhost:3000/v1/auth/signin", {
-      method: "POST",
-      body: JSON.stringify({
-        user,
-        password,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    return await res.json();
-  } catch (error) {
-    throw new Error("Error getting user");
-  }
-}
+const pool = new Pool({
+  host: "localhost",
+  port: 5432,
+  password: "65765750",
+  user: "jeffercbs",
+  max: 20,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
+});
 
 export const {
   handlers: { GET, POST },
@@ -33,24 +19,11 @@ export const {
   signIn,
   signOut,
 } = NextAuth({
+  adapter: PostgresAdapter(pool),
   providers: [
-    Credentials({
-      name: "credentials",
-      credentials: {},
-      async authorize(credentials, request) {
-        const parsedCredentials = z
-          .object({ user: z.string(), password: z.string().min(6) })
-          .safeParse(credentials);
-
-        if (parsedCredentials.success) {
-          const u = await getUserToken(parsedCredentials.data);
-
-          if (!u) return null;
-          return u;
-        }
-
-        return null;
-      },
+    GoogleProvider({
+      clientId: process.env.GOOGLE_ID,
+      clientSecret: process.env.GOOGLE_SECRET,
     }),
   ],
   secret: process.env.SECRET,
